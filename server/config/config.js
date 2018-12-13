@@ -6,7 +6,7 @@ let uriDB;
 if (process.env.NODE_ENV === 'dev') {
     uriDB = 'mongodb://localhost:27017/testdb';
 } else {
-    uriDB = 'mongodb://usuariouno:qwe123@ds025762.mlab.com:25762/testbd';
+    uriDB = process.env.MONGO_URIDB;
 }
 
 process.env.cadenaDB = uriDB;
