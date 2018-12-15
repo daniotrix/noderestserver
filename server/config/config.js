@@ -10,3 +10,9 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 process.env.cadenaDB = uriDB;
+
+//SEED Token
+
+//Vencimiento Token
+process.env.cad_Token = 60 * 60 * 24 * 30;
+process.env.seed_Token = process.env.seed_Token || 'secret';

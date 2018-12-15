@@ -1,21 +1,27 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
-const app = express();
 const Usuario = require('../modelos/usuarios');
+const { verificaToken } = require('../middlewares/autenticacion');
+const app = express();
 
 
-app.get('/usuario', function(req, res) {
+app.get('/usuario', verificaToken, (req, res) => {
+    return res.json({
+        usuario: req.usuario,
+        name: req.usuario.nombre,
+        email: req.usuario.email,
+        estado: req.usuario.estado
+    });
     let desde = req.query.desde || 0;
     desde = Number(desde);
     let limite = req.query.limite || 5;
     limite = Number(limite);
     let estadoUser = req.query.estadoUser || true;
-    // estadoUser = Boolean(estadoUser);
     Usuario.find({ estado: estadoUser }, 'nombre email role estado google img')
         .skip(desde)
         .limit(limite)
-        .exec((err, usuarios) => {
+        .exec((err, usuario) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
@@ -28,7 +34,7 @@ app.get('/usuario', function(req, res) {
                 res.json({
                     ok: true,
                     registros: cuantos,
-                    usuarios
+                    usuario
                 });
             })
         });
@@ -83,7 +89,6 @@ app.put('/usuario/:id', function(req, res) {
 app.delete('/usuario/:id', function(req, res) {
     let id = req.params.id;
     let cambiaEstado = { estado: false };
-    // Usuario.findByIdAndRemove(id, (err, usuariodel) => {
     Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuariodel) => {
         if (err) {
             return res.status(400).json({
