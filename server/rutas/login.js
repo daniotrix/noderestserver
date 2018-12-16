@@ -33,11 +33,11 @@ app.post('/login', (req, res) => {
             });
         }
         let token = jwt.sign({
-            Usuario: usuarioBd
+            usuario: usuarioBd
         }, process.env.seed_Token, { expiresIn: process.env.cad_Token })
         res.json({
             ok: true,
-            Usuario: usuarioBd,
+            usuario: usuarioBd,
             token
         })
     });
