@@ -14,7 +14,7 @@ process.env.cadenaDB = uriDB;
 //SEED Token
 
 //Vencimiento Token
-process.env.cad_Token = 60 * 60 * 24 * 30;
+process.env.cad_Token = '48h';
 process.env.seed_Token = process.env.seed_Token || 'secret';
 
 //google client id
